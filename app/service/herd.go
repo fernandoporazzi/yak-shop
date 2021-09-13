@@ -47,6 +47,7 @@ func (s *herdService) GetData(days int64) (entity.HerdPayload, error) {
 		var labyak entity.LabYakPayload
 		labyak.Age = ageWithElapsedTime / YakYear
 		labyak.Name = v.Name
+		labyak.Sex = v.Sex
 		labyak.AgeLastShaved = ageLastShaved
 
 		labyaks = append(labyaks, labyak)

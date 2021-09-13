@@ -51,7 +51,7 @@ func (c *stockController) GetData(response http.ResponseWriter, request *http.Re
 
 	var stock entity.Stock
 
-	stock.Milk = int32(liters)
+	stock.Milk = liters
 	stock.Skins = skins
 
 	response.WriteHeader(http.StatusOK)
