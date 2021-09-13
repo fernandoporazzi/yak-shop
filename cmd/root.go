@@ -28,7 +28,7 @@ func init() {
 	rootCmd.PersistentFlags().Bool("viper", true, "use Viper for configuration")
 
 	getDataCmd.PersistentFlags().StringP("file", "f", "", "XML file to read from")
-	getDataCmd.PersistentFlags().Int32P("days", "d", 0, "Elapsed time in days")
+	getDataCmd.PersistentFlags().Int64P("days", "d", 0, "Elapsed time in days")
 	getDataCmd.MarkPersistentFlagRequired("file")
 	getDataCmd.MarkPersistentFlagRequired("days")
 

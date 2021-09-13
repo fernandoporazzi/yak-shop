@@ -15,7 +15,7 @@ type HerdController interface {
 }
 
 type herdController struct {
-	service service.HerdService
+	herdService service.HerdService
 }
 
 func NewHerdController(service service.HerdService) HerdController {
@@ -29,8 +29,9 @@ func (c *herdController) GetData(response http.ResponseWriter, request *http.Req
 	if err != nil {
 		response.WriteHeader(http.StatusInternalServerError)
 		json.NewEncoder(response).Encode(errors.ServiceError{Message: "Error parsing the date"})
+		return
 	}
 
-	herd, _ := c.service.GetData(days)
+	herd, _ := c.herdService.GetData(days)
 	json.NewEncoder(response).Encode(herd)
 }

@@ -23,7 +23,7 @@ var getDataCmd = &cobra.Command{
 			panic(err)
 		}
 
-		days, err := cmd.Flags().GetInt32("days")
+		days, err := cmd.Flags().GetInt64("days")
 		if err != nil {
 			fmt.Println("Error getting flag `days`")
 			panic(err)

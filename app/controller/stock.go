@@ -15,15 +15,15 @@ type StockController interface {
 	GetData(response http.ResponseWriter, request *http.Request)
 }
 
-type controller struct {
+type stockController struct {
 	service service.StockService
 }
 
 func NewStockController(service service.StockService) StockController {
-	return &controller{service}
+	return &stockController{service}
 }
 
-func (c *controller) GetData(response http.ResponseWriter, request *http.Request) {
+func (c *stockController) GetData(response http.ResponseWriter, request *http.Request) {
 	response.Header().Set("Content-Type", "application/json")
 
 	days, err := strconv.ParseInt(chi.URLParam(request, "days"), 10, 32)
@@ -31,19 +31,22 @@ func (c *controller) GetData(response http.ResponseWriter, request *http.Request
 	if err != nil {
 		response.WriteHeader(http.StatusInternalServerError)
 		json.NewEncoder(response).Encode(errors.ServiceError{Message: "Error parsing the date"})
+		return
 	}
 
-	liters, err := c.service.GetMilkByDays(int32(days))
+	liters, err := c.service.GetMilkByDays(days)
 
 	if err != nil {
 		response.WriteHeader(http.StatusInternalServerError)
 		json.NewEncoder(response).Encode(errors.ServiceError{Message: "Error getting the mlik stock"})
+		return
 	}
 
-	skins, err := c.service.GetSkinByDays(int32(days))
+	skins, err := c.service.GetSkinByDays(days)
 	if err != nil {
 		response.WriteHeader(http.StatusInternalServerError)
 		json.NewEncoder(response).Encode(errors.ServiceError{Message: "Error getting the skin stock"})
+		return
 	}
 
 	var stock entity.Stock

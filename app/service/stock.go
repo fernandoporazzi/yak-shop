@@ -12,19 +12,19 @@ var (
 )
 
 type StockService interface {
-	GetMilkByDays(days int32) (float64, error)
-	GetSkinByDays(days int32) (int32, error)
+	GetMilkByDays(days int64) (float64, error)
+	GetSkinByDays(days int64) (int32, error)
 }
 
-type service struct {
+type stockService struct {
 	herd entity.Herd
 }
 
 func NewStockService(herd entity.Herd) StockService {
-	return &service{herd}
+	return &stockService{herd}
 }
 
-func (s *service) GetMilkByDays(days int32) (float64, error) {
+func (s *stockService) GetMilkByDays(days int64) (float64, error) {
 	var liters float64 = 0
 
 	for _, v := range s.herd.LabYaks {
@@ -49,7 +49,7 @@ func (s *service) GetMilkByDays(days int32) (float64, error) {
 	return liters * float64(days), nil
 }
 
-func (s *service) GetSkinByDays(days int32) (int32, error) {
+func (s *stockService) GetSkinByDays(days int64) (int32, error) {
 	var skins int32 = 0
 
 	for _, v := range s.herd.LabYaks {

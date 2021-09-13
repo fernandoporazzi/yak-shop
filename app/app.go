@@ -42,6 +42,7 @@ func Start() {
 
 	stockController := controller.NewStockController(stockService)
 	herdController := controller.NewHerdController(herdService)
+	orderController := controller.NewOrderController(stockService)
 
 	r := chi.NewRouter()
 
@@ -62,6 +63,7 @@ func Start() {
 	r.Route("/yak-shop", func(r chi.Router) {
 		r.Get("/stock/{days:[0-9]+}", stockController.GetData)
 		r.Get("/herd/{days:[0-9]+}", herdController.GetData)
+		r.Post("/order/{days:[0-9]+}", orderController.PlaceOrder)
 	})
 
 	http.ListenAndServe(":3000", r)
