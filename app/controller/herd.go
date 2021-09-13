@@ -3,8 +3,11 @@ package controller
 import (
 	"encoding/json"
 	"net/http"
+	"strconv"
 
+	"github.com/fernandoporazzi/yak-shop/app/errors"
 	"github.com/fernandoporazzi/yak-shop/app/service"
+	"github.com/go-chi/chi/v5"
 )
 
 type HerdController interface {
@@ -22,6 +25,12 @@ func NewHerdController(service service.HerdService) HerdController {
 func (c *herdController) GetData(response http.ResponseWriter, request *http.Request) {
 	response.WriteHeader(http.StatusOK)
 
-	herd, _ := c.service.GetData(int32(13))
+	days, err := strconv.ParseInt(chi.URLParam(request, "days"), 10, 32)
+	if err != nil {
+		response.WriteHeader(http.StatusInternalServerError)
+		json.NewEncoder(response).Encode(errors.ServiceError{Message: "Error parsing the date"})
+	}
+
+	herd, _ := c.service.GetData(days)
 	json.NewEncoder(response).Encode(herd)
 }

@@ -63,6 +63,7 @@ func (s *service) GetSkinByDays(days int32) (int32, error) {
 		// At most every 8 + (D * 0.01) days you can again shave a LabYak (D = age in days).
 		daysSinceLastShaved := 8 + ageWithElapsedTime*0.01
 
+		// N.B. T=13 means that day 12 has elapsed, but day 13 has yet to begin
 		s := int32(math.Ceil(float64(days-1) / daysSinceLastShaved))
 		skins = skins + s
 	}
